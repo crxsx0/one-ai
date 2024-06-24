@@ -5,9 +5,10 @@ os.environ["KERAS_BACKEND"] = "tensorflow"
 from keras.src.saving import load_model
 import keras
 import numpy as np
-
+from werkzeug.utils import secure_filename
+from flask_cors import CORS
 app = Flask(__name__)
-
+CORS(app)  # Habilita CORS para todas las rutas
 modelo = load_model('ia_model/model_latest.keras')
 
 @app.route('/predict', methods=['POST'])
@@ -28,7 +29,7 @@ def predict():
         predictions = modelo.predict(input_arr)
 
         result = "Es Original" if predictions > 0.5 else "Es Falso"
-        
+        print(jsonify(result=result))
         return jsonify(result=result)
 
 if __name__ == '__main__':
