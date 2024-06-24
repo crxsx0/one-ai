@@ -16,7 +16,12 @@ function uploadImage() {
         method: 'POST',
         body: formData
     })
-    .then(response => response.json())
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
         if (data.result) {
             alert(`Resultado del servidor: ${data.result}`);
@@ -26,6 +31,6 @@ function uploadImage() {
     })
     .catch((error) => {
         console.error('Error:', error);
-        alert('Error al subir la imagen');
+        alert('Error al subir la imagen: ' + error.message);
     });
 }
