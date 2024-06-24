@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="dropzone" style="width: 300px; height: 300px; border: 2px dashed #ccc;">
+        <p>Drag and drop an image here</p>
+    </div>
+
+    <script>
+        var dropzone = document.getElementById('dropzone');
+
+        dropzone.addEventListener('dragover', function(e) {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '#f7f7f7';
+        });
+
+        dropzone.addEventListener('dragleave', function(e) {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '';
+        });
+
+        dropzone.addEventListener('drop', function(e) {
+            e.preventDefault();
+            dropzone.style.backgroundColor = '';
+
+            var file = e.dataTransfer.files[0];
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+                var img = document.createElement('img');
+                img.src = e.target.result;
+                dropzone.appendChild(img);
+            };
+
+            reader.readAsDataURL(file);
+        });
+    </script>
+</body>
+</html>
